@@ -2,7 +2,8 @@ package com.andy.service
 
 import com.andy.model.url.StockPriceFinder
 
-import scala.actors.{TIMEOUT, Actor}
+import scala.actors._
+import Actor._
 
 /**
  * Created by wb-zhangwei01 on 2014/7/30.
@@ -12,7 +13,7 @@ object NetAssetStockPriceHelper {
   val symbolsAndUntis = StockPriceFinder.getTickersAndUnits
 
   def getInitialTableValues: Array[Array[Any]] = {
-    val emptyArrayOfArrayOfAny = new Array[Array[Any]](0, 0)
+    val emptyArrayOfArrayOfAny = new Array[Array[Any]](0)
     (emptyArrayOfArrayOfAny /: symbolsAndUntis) { (data, element) =>
       val (ticker, units) = element
       data ++ Array(List(ticker, units, "?", "?").toArray)
@@ -23,7 +24,7 @@ object NetAssetStockPriceHelper {
     val caller = self
     symbolsAndUntis.keys.foreach { ticker =>
       actor {
-        caller !(tciker, StockPriceFinder.getLatestClosingPrice(ticker))
+        caller !(ticker, StockPriceFinder.getLatestClosingPrice(ticker))
       }
     }
 

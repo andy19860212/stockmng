@@ -6,25 +6,24 @@ import java.util.Date
 import com.andy.service.NetAssetStockPriceHelper
 
 import scala.actors._
-import Actor._
-import scala.actors.scheduler.SingleThreadedScheduler
 import scala.swing._
 import event._
 
 /**
  * Created by wb-zhangwei01 on 2014/7/30.
+ * 个人股票资产查看
  */
 object NetAssetAppGUI extends SimpleSwingApplication {
-  def top = mianFrame
+  def top = mainFrame
 
   val mainFrame = new MainFrame {
-    title = "Net Asset"
+    title = "股票资产"
     val dateLable = new Label {
       text = "最近更新时间:--------------"
     }
     val valuesTable = new Table(
       NetAssetStockPriceHelper.getInitialTableValues,
-      Array("股票名称", "持股数量", "最新单股价", "您的所得")) {
+      Array("股票名称", "持股数量", "最新单股价($)", "您的所得($)")) {
       showGrid = true
       gridColor = Color.BLACK
     }
@@ -36,7 +35,7 @@ object NetAssetAppGUI extends SimpleSwingApplication {
       text = "总价格:????"
     }
 
-    contents += new BoxPanel(Orientation.Vertical) {
+    contents = new BoxPanel(Orientation.Vertical) {
       contents += dateLable
       contents += valuesTable
       contents += new ScrollPane(valuesTable)
@@ -70,7 +69,7 @@ object NetAssetAppGUI extends SimpleSwingApplication {
         }
       }
 
-      override protected def scheduler() = new SingleThreadedScheduler
+      // override protected def scheduler() = new SingleThreadedScheduler
     }
 
     uiUpdater.start()
