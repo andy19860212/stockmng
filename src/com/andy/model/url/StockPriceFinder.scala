@@ -15,6 +15,11 @@ object StockPriceFinder {
     closingPrice
   }
 
+
+  /**
+   * 从xml文件获取用户股票持有信息
+   * @return
+   */
   def getTickersAndUnits = {
     val stocksAndUnitsXML = XML.load("stocks.xml")
     (Map[String, Int]() /: (stocksAndUnitsXML \\ "symbol")) {;
