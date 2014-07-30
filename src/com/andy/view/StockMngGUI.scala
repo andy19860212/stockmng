@@ -1,11 +1,11 @@
 package com.andy.view
 
 import java.awt.Color
+import javax.swing.event.TableModelEvent
 
 import com.andy.service.NetAssetStockPriceHelper
 
 import scala.swing._
-import scala.swing.event.{EditDone, ButtonClicked}
 
 /**
  * Created by wb-zhangwei01 on 2014/7/30.
@@ -32,10 +32,10 @@ object StockMngGUI extends SimpleSwingApplication{
      }
 
 
-     listenTo(valuesTable)
+    listenTo(valuesTable)
 
      reactions += {
-       case EditDone(valuesTable) =>
+       case TableEvent=>
          testLable.text = "11111"
      }
    }
