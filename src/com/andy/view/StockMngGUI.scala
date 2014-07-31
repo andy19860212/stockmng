@@ -1,18 +1,14 @@
 package com.andy.view
 
-import java.awt
 import java.awt.Color
-import java.util.EventObject
-import javax.swing.{JTable, ListSelectionModel}
-import javax.swing.event.{CellEditorListener, TableModelEvent, TableModelListener}
-import javax.swing.table.{TableCellEditor, DefaultTableModel, TableColumnModel, AbstractTableModel}
+import javax.swing.ListSelectionModel
+import javax.swing.event.{TableModelEvent, TableModelListener}
 
 import com.andy.model.file.StockMngXMLHelper
 import com.andy.service.NetAssetStockPriceHelper
 
-import scala.swing.FileChooser.SelectionMode
 import scala.swing._
-import scala.swing.event.{ButtonClicked, TableChanged}
+import scala.swing.event.ButtonClicked
 
 /**
  * Created by wb-zhangwei01 on 2014/7/30.
@@ -75,12 +71,14 @@ object StockMngGUI extends SimpleSwingApplication {
       override def tableChanged(e: TableModelEvent): Unit = {
         e.getType match {
           case TableModelEvent.UPDATE =>
-              if(valuesTable.selection.columns.last == 1) {
-                updateStockUnits(valuesTable(e.getLastRow, e.getColumn - 1).toString, valuesTable(e.getLastRow, e.getColumn).toString.toInt)
-                testLable.text = "修改成功"
-              }else{
-                testLable.text = "股票名称不能修改!"
-              }
+            if (valuesTable.selection.columns.last == 1) {
+              updateStockUnits(valuesTable(e.getLastRow, e.getColumn - 1).toString, valuesTable(e.getLastRow, e.getColumn).toString.toInt)
+              testLable.foreground = Color.BLACK
+              testLable.text = "修改成功"
+            } else {
+              testLable.foreground = Color.RED
+              testLable.text = "股票名称不能修改!"
+            }
         }
       }
     })
