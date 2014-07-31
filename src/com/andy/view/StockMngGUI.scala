@@ -8,7 +8,7 @@ import com.andy.model.file.StockMngXMLHelper
 import com.andy.service.NetAssetStockPriceHelper
 
 import scala.swing._
-import scala.swing.event.ButtonClicked
+import scala.swing.event.{TableStructureChanged, TableUpdated, TableChanged, ButtonClicked}
 
 /**
  * Created by wb-zhangwei01 on 2014/7/30.
@@ -16,13 +16,10 @@ import scala.swing.event.ButtonClicked
 object StockMngGUI extends SimpleSwingApplication {
   def top = new MainFrame {
     title = "您所持有的股票"
-    val testLable = new Label("")
+    val msgLable = new Label("")
 
     val addButton = new Button {
       text = "增加"
-    }
-    val editButton = new Button {
-      text = "修改"
     }
 
     val deletButton = new Button {
@@ -43,9 +40,8 @@ object StockMngGUI extends SimpleSwingApplication {
       contents += valuesTable
       contents += new ScrollPane(valuesTable)
       contents += new FlowPanel {
-        contents += testLable
+        contents += msgLable
         contents += addButton
-        contents += editButton
         contents += deletButton
       }
     }
@@ -60,35 +56,48 @@ object StockMngGUI extends SimpleSwingApplication {
       StockMngXMLHelper save changeStockMap
     }
 
-    // listenTo(addButton)
-    listenTo(editButton)
+     listenTo(addButton)
+     listenTo(valuesTable)
     //  listenTo(deletButton)
 
     /**
      * 添加表修改监听事件
      */
-    valuesTable.model.addTableModelListener(new TableModelListener {
+  /*  valuesTable.model.addTableModelListener(new TableModelListener {
       override def tableChanged(e: TableModelEvent): Unit = {
         e.getType match {
           case TableModelEvent.UPDATE =>
             if (valuesTable.selection.columns.last == 1) {
               updateStockUnits(valuesTable(e.getLastRow, e.getColumn - 1).toString, valuesTable(e.getLastRow, e.getColumn).toString.toInt)
-              testLable.foreground = Color.BLACK
-              testLable.text = "修改成功"
+              msgLable.foreground = Color.BLACK
+              msgLable.text = "修改成功"
             } else {
-              testLable.foreground = Color.RED
-              testLable.text = "股票名称不能修改!"
+              msgLable.foreground = Color.RED
+              msgLable.text = "股票名称不能修改!"
             }
+
+          case TableModelEvent.INSERT =>
+
+
         }
       }
     })
-
+*/
 
 
     reactions += {
-      case ButtonClicked(editButton) =>
+      case ButtonClicked(addButton) =>
         if (valuesTable.selection.columns.last == 1) {
           valuesTable.peer.editCellAt(valuesTable.selection.rows.last, valuesTable.selection.columns.last)
+        }
+      case TableUpdated(valuesTable,valuesTable.selection.rows.head to valuesTable.selection.rows.last,valuesTable.selection.columns.last) =>
+        if (valuesTable.selection.columns.last == 1) {
+          updateStockUnits(valuesTable(valuesTable.selection.rows.last, valuesTable.selection.columns.last - 1).toString, valuesTable(valuesTable.selection.rows.last, valuesTable.selection.columns.last).toString.toInt)
+          msgLable.foreground = Color.BLACK
+          msgLable.text = "修改成功"
+        } else {
+          msgLable.foreground = Color.RED
+          msgLable.text = "股票名称不能修改!"
         }
     }
 
