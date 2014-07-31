@@ -75,8 +75,12 @@ object StockMngGUI extends SimpleSwingApplication {
       override def tableChanged(e: TableModelEvent): Unit = {
         e.getType match {
           case TableModelEvent.UPDATE =>
-            updateStockUnits(valuesTable(e.getLastRow, e.getColumn - 1).toString, valuesTable(e.getLastRow, e.getColumn).toString.toInt)
-            testLable.text = "修改成功"
+              if(valuesTable.selection.columns.last == 1) {
+                updateStockUnits(valuesTable(e.getLastRow, e.getColumn - 1).toString, valuesTable(e.getLastRow, e.getColumn).toString.toInt)
+                testLable.text = "修改成功"
+              }else{
+                testLable.text = "股票名称不能修改!"
+              }
         }
       }
     })
