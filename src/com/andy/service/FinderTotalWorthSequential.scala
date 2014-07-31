@@ -2,6 +2,7 @@ package com.andy.service
 
 import java.util.Date
 
+import com.andy.model.file.StockMngXMLHelper
 import com.andy.model.url.StockPriceFinder
 
 /**
@@ -12,7 +13,7 @@ import com.andy.model.url.StockPriceFinder
  */
 object FinderTotalWorthSequential {
   def main(args: Array[String]) {
-    val symbolsAndUnits = StockPriceFinder.getTickersAndUnits
+    val symbolsAndUnits = StockMngXMLHelper.getTickersAndUnits
     println("Today is " + new Date())
     println("Ticker Units Closing Price($) Total Value($)")
     val startTime = System.nanoTime()

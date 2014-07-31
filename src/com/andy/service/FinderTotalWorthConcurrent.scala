@@ -2,6 +2,7 @@ package com.andy.service
 
 import java.util.Date
 
+import com.andy.model.file.StockMngXMLHelper
 import com.andy.model.url.StockPriceFinder
 import scala.actors._
 import Actor._
@@ -13,7 +14,7 @@ import Actor._
  */
 object FinderTotalWorthConcurrent extends App {
 
-  val symbolsAndUnits = StockPriceFinder.getTickersAndUnits
+  val symbolsAndUnits = StockMngXMLHelper.getTickersAndUnits
 
   val caller = self
   println("Today is " + new Date())

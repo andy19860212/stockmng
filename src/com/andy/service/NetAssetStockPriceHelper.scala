@@ -1,5 +1,6 @@
 package com.andy.service
 
+import com.andy.model.file.StockMngXMLHelper
 import com.andy.model.url.StockPriceFinder
 
 import scala.actors._
@@ -10,7 +11,7 @@ import Actor._
  * 更新股票价格的actor
  */
 object NetAssetStockPriceHelper {
-  val symbolsAndUntis = StockPriceFinder.getTickersAndUnits
+  val symbolsAndUntis = StockMngXMLHelper.getTickersAndUnits
 
   /**
    * 通过网络查询股票信息前的初始化表格
